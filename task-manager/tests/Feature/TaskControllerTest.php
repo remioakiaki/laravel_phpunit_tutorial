@@ -19,4 +19,26 @@ class TaskControllerTest extends TestCase
 
         $response->assertStatus(200);
     }
+    /**
+     * Get Task Detail Path Test
+     *
+     * @return void
+     */
+    public function testGetTaskPath()
+    {
+        $response = $this->get('/tasks/1');
+
+        $response->assertStatus(200);
+    }
+    /**
+     * Get Task Detail Path Not Exists Test
+     *
+     * @return void
+     */
+    public function testGetTaskPathNotExists()
+    {
+        $response = $this->get('/tasks/0');
+
+        $response->assertStatus(404);
+    }
 }

@@ -41,4 +41,16 @@ class TaskTest extends TestCase
         // 実行完了しているはず
         $this->assertTrue(boolval($task1->executed));
     }
+
+    public function testGetTaskDetail()
+    {
+        $tasks = Task::find(2);
+        $this->assertEquals('テストタスク', $tasks->title);
+    }
+
+    public function testGetTaskDetailNotExists()
+    {
+        $tasks = Task::find(0);
+        $this->assertNull($tasks);
+    }
 }

@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('/tasks', 'TaskController@index')->name('tasks.index');;
 Route::get('/users', 'UsersController@index')->name('users.index');;
+Route::get('/tasks/{id}', 'TaskController@detail')->where('id', '[0-9]+')->name('tasks.detail');
