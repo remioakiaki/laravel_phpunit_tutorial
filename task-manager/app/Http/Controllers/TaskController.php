@@ -8,6 +8,10 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return "all tasks";
+        $tasks = [
+            (object) ['id' => 10, 'title' => 'テストタスク', 'executed' => false],
+        ];
+
+        return view('tasks.index', ['tasks' => $tasks]);
     }
 }
