@@ -2,18 +2,32 @@
 
 namespace Tests\Browser;
 
+use App\Task;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TasksIndexTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
+    private $task;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->task = Task::create([
+            'title' => 'テストタスク',
+            'executed' => false,
+        ]);
+    }
     /**
-     * A Dusk test example.
+     * Tasks Index Test.
      *
-     * @return void
+     * @throws \Exception
+     * @throws \Throwable
      */
-    public function testExample()
+    public function testIndex()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/tasks')
@@ -33,9 +47,9 @@ class TasksIndexTest extends DuskTestCase
             $browser->visit('/tasks')
                 ->assertSeeLink('テストタスク')
                 ->clickLink('テストタスク')
-                ->waitForLocation('/tasks/2', 1)
-                ->assertPathIs('/tasks/2')
-                ->assertSee('テストタスク');
+                ->waitForLocation('/tasks/' . $this->task->id, 1)
+                ->assertPathIs('/tasks/' . $this->task->id)
+                ->assertInputValue('#title', 'テストタスク');
         });
     }
 }

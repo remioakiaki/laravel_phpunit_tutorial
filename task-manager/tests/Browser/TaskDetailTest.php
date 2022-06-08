@@ -2,22 +2,67 @@
 
 namespace Tests\Browser;
 
+use App\Task;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TaskDetailTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
+    private $task;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->task = Task::create([
+            'title' => 'テストタスク',
+            'executed' => false,
+        ]);
+    }
+
+    // /**
+    //  * A Dusk test example.
+    //  *
+    //  * @return void
+    //  */
+    // public function testExample()
+    // {
+    //     $this->browse(function (Browser $browser) {
+    //         $browser->visit('/tasks')
+    //             ->assertSeeLink('テストタスク')
+    //             ->clickLink('テストタスク')
+    //             ->waitForLocation('/tasks/2', 1)
+    //             ->assertPathIs('/tasks/2')
+    //             ->screenshot("task_detail");
+    //     });
+    // }
     /**
-     * A Dusk test example.
+     * Task Post Test.
      *
-     * @return void
+     * @throws \Throwable
      */
-    public function testExample()
+    public function testPost()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/tasks/2')
-                ->assertSee('テストタスク')
+            $browser->visit('/tasks/' . $this->task->id)
+                ->assertInputValue('#title', 'テストタスク')
+                ->type('#title', 'test task')
+                ->screenshot('task_post_typed')
+                ->press('更新')
+                ->pause(1000)
+                ->assertPathIs('/tasks/' . $this->task->id)
+                ->assertInputValue('#title', 'test task')
+                ->screenshot('task_post_pressed');
+        });
+    }
+
+    public function testShowDetail()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/tasks/' . $this->task->id)
+                ->assertInputValue('#title', 'テストタスク')
                 ->screenshot("task_detail");
         });
     }
