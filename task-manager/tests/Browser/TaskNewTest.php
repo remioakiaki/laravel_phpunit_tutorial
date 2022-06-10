@@ -8,18 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class TaskNewTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/tasks/new')
-                ->assertSee('New Task');
-        });
-    }
+
     /**
      * New Task Page Test (Empty Title).
      *

@@ -128,7 +128,7 @@ class TaskControllerTest extends TestCase
     {
         $data = [];
         $response = $this->from('/tasks/new')
-        ->post('/tasks/', $data);
+            ->post('/tasks/', $data);
 
         $response->assertSessionHasErrors(['title' => 'The title field is required.']);
 
@@ -147,7 +147,7 @@ class TaskControllerTest extends TestCase
             'title' => ''
         ];
         $response = $this->from('/tasks/new')
-        ->post('/tasks/', $data);
+            ->post('/tasks/', $data);
 
         $response->assertSessionHasErrors(['title' => 'The title field is required.']);
 
@@ -188,11 +188,28 @@ class TaskControllerTest extends TestCase
         ];
 
         $response = $this->from('/tasks/new')
-        ->post('/tasks/', $data);
+            ->post('/tasks/', $data);
 
         $response->assertSessionHasErrors(['title' => 'The title may not be greater than 512 characters.']);
 
         $response->assertStatus(302)
             ->assertRedirect('/tasks/new');
+    }
+
+    /**
+     * Delete Task Path Test
+     *
+     * @return void
+     */
+    public function testDeleteTaskPath()
+    {
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+
+        $response = $this->delete('/tasks/' . $this->task->id);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/tasks/');
+
+        $this->assertDatabaseMissing('tasks', $this->task->toArray());
     }
 }

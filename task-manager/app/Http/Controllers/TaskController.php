@@ -56,4 +56,10 @@ class TaskController extends Controller
         Task::create(['title' => $request->title, 'executed' => false]);
         return redirect('/tasks');
     }
+
+    public function remove(int $id)
+    {
+        Task::destroy($id);
+        return redirect('/tasks');
+    }
 }
