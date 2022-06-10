@@ -1,11 +1,8 @@
-FROM    php:7.2-apache
-RUN     usermod -u 1000 www-data        \
-    &&  groupmod -g 1000 www-data       \
-    &&  a2enmod rewrite                 \
-    &&  pecl install xdebug-2.6.0       \
-    &&  apt-get update -y               \
-    &&  apt-get install -y zlib1g-dev   \
-    &&  docker-php-ext-enable xdebug    \
-    &&  docker-php-ext-install pdo_mysql mysqli mbstring zip \
-    &&  apt-get clean
-
+FROM    php:7.4-apache
+RUN apt-get update \
+    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev \
+    && docker-php-ext-install pdo_mysql mysqli gd \
+    && pecl install mcrypt \
+    && docker-php-ext-enable mcrypt \
+    && cd /etc/apache2/mods-enabled \
+    && ln -s ../mods-available/rewrite.load
