@@ -19,3 +19,5 @@ Route::get('/tasks', 'TaskController@index')->name('tasks.index');;
 Route::get('/users', 'UsersController@index')->name('users.index');;
 Route::get('/tasks/{id}', 'TaskController@detail')->where('id', '[0-9]+')->name('tasks.detail');
 Route::put('/tasks/{id}', 'TaskController@update')->where('id', '[0-9]+');
+Route::get('/tasks/new', 'TaskController@new');
+Route::post('/tasks', 'TaskController@create');
